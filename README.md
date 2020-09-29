@@ -42,3 +42,7 @@ Usage:
 ```html
 {{< notebook url="https://github.com/python-visualization/folium/blob/master/examples/CheckZorder.ipynb" >}}
 ```
+
+Which produces:
+
+![Imgur Hugo Notebook](https://i.imgur.com/kb3QFSP.png)

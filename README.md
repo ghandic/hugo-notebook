@@ -40,5 +40,5 @@ To render remote notebooks stored on github
 Usage:
 
 ```html
-{{< notebook url="[Note](https://github.com/python-visualization/folium/blob/master/examples/CheckZorder.ipynb)" >}}
+{{< notebook url="https://github.com/python-visualization/folium/blob/master/examples/CheckZorder.ipynb" >}}
 ```

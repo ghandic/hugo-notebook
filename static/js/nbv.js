@@ -363,19 +363,9 @@ var nbv = (function () {
                     break;
                 case 'html':
 
-                    // // guessing here, haven't seen a v3 HTML element
-                    // var elm = htmlToElement(cell[k].trim())
-
-                    // console.log(elm.nodeName)
-                    // if (elm.nodeName === "IFRAME") {
-
-                    // }
-                    // // p.innerHTML = cell[k].trim();
-                    // if (typeof cell[k].trim === 'function') {
-                    //     p.innerHTML = htmlToElement(cell[k].trim());
-                    // } else {
-                    //     console.error(cell[k].trim, k, cell[k])
-                    // }
+                    if (typeof p.src === "string") {
+                        p.src = p.src.replace(/^http:\/\//i, 'https://');
+                    }
                     p = htmlToElement(cell[k].trim())
                     break;
                 case 'png':

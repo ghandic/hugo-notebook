@@ -1,5 +1,5 @@
-.notebook code[class*=language-], .notebook pre[class*=language-] {
-    color: #000;
+.notebook code, .notebook code[class*=language-], .notebook pre[class*=language-] {
+    color: #000 !important;
     background: 0 0;
     text-shadow: 0 1px #fff;
     font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
@@ -20,7 +20,16 @@
 
 .notebook code[class*=language-] ::-moz-selection, .notebook code[class*=language-]::-moz-selection, .notebook pre[class*=language-] ::-moz-selection, .notebook pre[class*=language-]::-moz-selection {
     text-shadow: none;
-    background: #b3d4fc
+    background: #b3d4fc !important;
+}
+
+.notebook p code {
+    background-color: #eff0f1;
+    font-family: monospace;
+}
+
+.notebook p {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .notebook code[class*=language-] ::selection, .notebook code[class*=language-]::selection, .notebook pre[class*=language-] ::selection, .notebook pre[class*=language-]::selection {
@@ -102,7 +111,7 @@
 .notebook h1, .notebook h2, .notebook h3, .notebook h4, .notebook h5, .notebook h6 {
     font-family: Helvetica, sans-serif;
     font-weight: bold;
-    line-height: 20px;
+    line-height: 1;
     color: black;
     text-rendering: optimizelegibility;
     letter-spacing: normal;
@@ -125,4 +134,41 @@
     padding: 1.5em 1.5em 1.5em 7em;
     background-color: white;
     box-shadow: 0 0 10px #ccc;
+}
+
+.notebook p, .notebook pre {
+    text-align: left;
+    color: black;
+    text-rendering: optimizelegibility;
+}
+
+.notebook table {
+    margin-left: 0;
+    margin-right: 0;
+    border: 1px solid #000;
+    border-collapse: collapse;
+}
+
+.notebook table {
+    max-width: 100%;
+    background-color: transparent;
+    border-spacing: 0;
+}
+
+.notebook tr, .notebook th, .notebook td {
+    border: 1px solid #000;
+    border-collapse: collapse;
+    margin: 1em 2em;
+    color: #000 !important;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.notebook td, .notebook th {
+    text-align: left;
+    vertical-align: middle;
+    padding: 4px;
+}
+
+.notebook table {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
 }

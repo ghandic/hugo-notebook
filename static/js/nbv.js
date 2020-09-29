@@ -4,6 +4,13 @@ var nbv = (function () {
     var d = document;
     var st = {}; // settings
 
+    function htmlToElement(html) {
+        var template = document.createElement('template');
+        html = html.trim(); // Never return a text node of whitespace as the result
+        template.innerHTML = html;
+        return template.content.firstChild;
+    }
+
     function render_ipynb(obj, target, settings) {
         if (!window.marked || !window.Prism || !window.katex) {
             console.error('expecting libraries marked.js, Prism.js and KaTeX to be present');
@@ -20,6 +27,7 @@ var nbv = (function () {
         if (st.nbformat > 3) {
             st.lang = (obj.metadata.kernelspec || { 'language': null }).language;
         }
+        console.log(st.lang)
 
         // wipe all inner elements of our target
         while (target.firstChild) {
@@ -118,8 +126,8 @@ var nbv = (function () {
         var code = d.createElement('code');
 
         // if (st.hasOwnProperty('lang'))
-        code.setAttribute('class', 'language-' + st.lang || cell.language);
-
+        code.setAttribute('class', 'language-' + (st.lang || cell.language));
+        // console.log(st.lang || cell.language)
         // no need to join on '\n' - newlines are in the code already
         // .source for v4, .input for v3
         var raw_source = (cell.source || cell.input)
@@ -279,7 +287,15 @@ var nbv = (function () {
         if (outt === 'stderr') {
             cn.setAttribute('style', 'background-color: #fdd; padding: .5em; white-space: pre-wrap');
         }
-        cn.textContent = dt.text.join('');
+
+        if (typeof dt.text === 'string') {
+            cn.textContent = dt.text
+        }
+        else if (typeof dt.text.join === 'function') {
+            cn.textContent = dt.text.join('');
+        } else {
+            console.error("unhandled dt", dt)
+        }
 
         return cn;
     }
@@ -318,15 +334,49 @@ var nbv = (function () {
                 return;
             var p = d.createElement('span'); // if errs
             switch (k) {
+                // case 'metadata':
                 case 'text':
                     p = d.createElement('pre');
                     p.style.margin = 0;
-                    p.textContent = cell[k].join('');
+                    if (typeof cell[k] === "string") {
+                        if (!typeof cell["png"] === "undefined") {
+                            p.textContent = cell[k]
+                        }
+                        if (!typeof cell["jpeg"] === "undefined") {
+                            p.textContent = cell[k]
+                        }
+
+                    }
+                    else if (typeof cell.text == "string") {
+                        p.textContent = cell.text
+                    }
+                    else if (cell["cell_type"] == "markdown") {
+                        p.textContent = cell["source"]
+                    }
+                    else if (typeof cell[k].join === 'function') {
+                        p.textContent = cell[k].join('');
+                    } else {
+
+                        console.error(k, cell[k], typeof cell[k], cell)
+                    }
+
                     break;
                 case 'html':
-                    p = d.createElement('div');
-                    // guessing here, haven't seen a v3 HTML element
-                    p.innerHTML = cell[k].join('');
+
+                    // // guessing here, haven't seen a v3 HTML element
+                    // var elm = htmlToElement(cell[k].trim())
+
+                    // console.log(elm.nodeName)
+                    // if (elm.nodeName === "IFRAME") {
+
+                    // }
+                    // // p.innerHTML = cell[k].trim();
+                    // if (typeof cell[k].trim === 'function') {
+                    //     p.innerHTML = htmlToElement(cell[k].trim());
+                    // } else {
+                    //     console.error(cell[k].trim, k, cell[k])
+                    // }
+                    p = htmlToElement(cell[k].trim())
                     break;
                 case 'png':
                 case 'jpeg':
@@ -335,6 +385,10 @@ var nbv = (function () {
                     p.setAttribute('style', 'max-width: 100%'); // avoid overflow
 
                     break;
+
+                case 'metadata':
+                    console.log("Ignoring metadata")
+                    break
 
                 default:
                     console.error('unsupported pyout format: ' + k);

@@ -1,0 +1,21 @@
+<link rel='stylesheet' href='/css/prism.min.css' />
+<script src='/js/marked.min.js'></script>
+<script src='/js/prism.min.js' data-manual></script>
+<script src='/js/prism-python.min.js' data-manual></script>
+
+<link rel="stylesheet" href="/css/katex.min.css">
+<script src="/js/katex.min.js"></script>
+
+<script src='/js/nbv.js'></script>
+
+{{ $cleanUrl := replace (.Get "url") "https://github.com" "https://raw.githubusercontent.com" }}
+{{ $cleanUrl:= replace $cleanUrl "/blob/" "/"}}
+
+<div id="{{md5 $cleanUrl}}">
+
+
+</div>
+{{ $dataJ := getJSON $cleanUrl }}
+<script>
+    nbv.render({{ $dataJ }}, document.getElementById("{{md5 $cleanUrl}}"))
+</script>

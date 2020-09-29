@@ -8,6 +8,8 @@ You can see this in action [on my blog](https://andrewchallis.co.uk/articles/bui
 
 ### Via `git` submodules as theme components
 
+**First ensure you are using git to version your site using `git init`**
+
 Install this as a submodule via `git submodule add https://github.com/ghandic/hugo-notebook.git themes/hugo-notebook` and change your `config.toml`
 
 ```toml
